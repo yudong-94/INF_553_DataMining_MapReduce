@@ -12,4 +12,7 @@ The essence of this homework is to calculate the average of values by groups usi
 Assignment 2 is an example of market basket analysis. It is to implement Savasere, Omiecinski and Navathe (SON) Algorithm and A-priori Algorithm to find out frequent itemsets in market baskets.
 
 ## Assignment 3
-Assignment 2 is to build a recommender system of movies. It includes two tasks: Task 1 is to build a model-based recommender system using the collabrative filtering library in mllib in spark; Task 2 is to build a user-based collaborative filtering or item-based collaborative filtering system without using any external library.
+Assignment 3 is to build a recommender system of movies. It includes two tasks: Task 1 is to build a model-based recommender system using the collabrative filtering library in mllib in spark; Task 2 is to build a user-based collaborative filtering or item-based collaborative filtering system without using any external library.
+
+## Assignment 4
+Assignment 4 is to write the hierarchical clustering algorithm.
