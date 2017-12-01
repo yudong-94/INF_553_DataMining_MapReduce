@@ -275,6 +275,6 @@ object frequentItemsets {
         outputString += "\n"
       }
 
-    new PrintWriter("Yu_Dong_SON.case"+caseNumber+"_"+support+".txt") { write(outputString); close}
+    new PrintWriter("SON.case"+caseNumber+"_"+support+".txt") { write(outputString); close}
   }
 }

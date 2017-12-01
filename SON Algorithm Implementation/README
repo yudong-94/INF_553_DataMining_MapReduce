@@ -1,0 +1,15 @@
+Description
+
+============================================================Scala version 	2.10.6
+Spark version 	1.6.1
+sbt version 	0.13.6
+
+============================================================
+In this exercise, I implemented the SON algorithm using the Apache Spark Framework. The data I used is the ml-1m movie dataset. I implemented the algorithm with two cases:
+Case 1 is to calculate the combinations of frequent movies (as singletons, pairs, triples, etc…) that were rated by male users and are qualified as frequent given a support threshold value. And case 2 is to calculate the combinations of frequent female users (as singletons, pairs, triples, etc…) who rated the movies given a support threshold value.
+Within the main object “frequentItemsets”, I created three helper functions:
+1. findCandidatesThis function takes the frequent itemsets of size n, and generate the candidate itemsets of size n+1.2. findSetThis function takes the candidate itemsets, and check how many times they appeared in a certain chunk, and output the frequent itemsets among them.3. aprioriThis function calls “findCandidates” and “findSet” functions, and integrate them to find all the frequent itemsets in a chunk using A-priori algorithm. More specifically, it first checks which of the singletons are frequent, then constructs candidate pairs using Monotonicity principle out of those singletons; then it checks which of the candidate pairs are frequent, and construct candidate triples based on them; … It will follow thisprocess, and loop until it cannot construct any candidate itemsets of size n+1 from the given frequent itemsets of size n.The basic logic of this solution is to follow the SON algorithm. Firstly, it joins the ratings and users datasets, and groups the records by userid in case 1 or movieid in case 2, to get the market baskets. Then in SON phase 1, it first uses the “apriori” function in mapPartitions()method to find out the frequent itemsets in each chunk, then takes all the unique itemsets from all the chunks as the candidate itemsets. In phase 2, it will count all these candidate itemsets in the whole dataset to find overall frequent itemsets.============================================================Instruction on running the Jar fileTo run the Jar file, please first go to the directory, then run the commands in terminal. The commands include exactly following five arguments:arg0 - scala jar patharg1 - case number (1/2)arg2 - path for ratings.datarg3 - path for users.datarg4 - support value
+And the output file will be saved in the directory with the name like“Yu_Dong_SON.case1_1200.txt”.
+Detailed commands are as following:
+1. Case1, support threshold 1200:userName$ ./bin/spark-submit --class frequentItemsets --master local[4]SON.jar 1 “ratings.dat" "users.dat" 1200output file name: SON.case1_1200.txtThis should take around 40 seconds.
+2. Case2, support threshold 600:userName$ ./bin/spark-submit --class frequentItemsets --master local[4]SON.jar 2 "ratings.dat" "users.dat" 600output file name: SON.case2_600.txtThis should take around 20 seconds.
