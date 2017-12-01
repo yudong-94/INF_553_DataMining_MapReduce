@@ -124,7 +124,7 @@ object Betweenness {
       /*
       This function takes the original graph as the input, 
       calculate the betweenness of all the edges,
-      then remove the edge with highest betweenness,w
+      then remove the edge with highest betweenness,
       and output the new graph.
       
       If this is the first-time calculation (i.e. on the original graph), output the result file

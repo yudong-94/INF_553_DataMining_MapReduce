@@ -21,8 +21,10 @@ object Community {
       // find the partitions first
       val connectedGraph = graph.connectedComponents().vertices.map(_.swap).groupByKey().map(_._2)
       
+      // the number of edges in the graph
       val m = graph.numEdges.toDouble
 
+      // get the degrees of all the vertex
       val degrees: RDD[(VertexId, Int)] = graph.degrees
 
       val allEdges = graph.edges.map(edge => ((edge.srcId, edge.dstId),1))
@@ -62,22 +64,29 @@ object Community {
       .sortBy(-_._2)
       .collect()
     
-    
     def maximumSearch(start:Int, step:Int): Int ={
+      /*
+      This function takes the start point (the number of edges have been moved), 
+      and the step (the edges will be removed in tach step),
+      output the endpoint, where the modularity decreases for the firs time.
+      */  
       var count = start
       var newGraph = graph
       var newSortedBetweenness = sortedBetweenness
       
+      // if the startpoint is not 0, then remove some edges and update the graph first
       if (count != 0) {
         val topBetweenness = newSortedBetweenness.take(count).map(_._1).toSet
         newSortedBetweenness = newSortedBetweenness.drop(count)
         newGraph = newGraph.subgraph(triplet => !topBetweenness.contains(sortedV(triplet.srcId, triplet.dstId)))
       }
       
+      // calculate the modularity
       var modularity = graphModularity(newGraph)
 
       //println("------------------------\nOrinigal modularity is " + modularity + "\n------------------------")
 
+      // loop until the modularity starts decreasing
       breakable(
         while (true) {
           count += step
@@ -105,17 +114,21 @@ object Community {
 
     val stepZoom = 5
     
+    // Loop with some step. Until the unique community with the highest modularity is found.
     breakable(
       while (true) {
+        // get information of the last step before modularity decrease detected
         val excludeEdges1 = sortedBetweenness.take(count - step).map(_._1).toSet
         val graph1 = graph.subgraph(triplet => !excludeEdges1.contains(sortedV(triplet.srcId, triplet.dstId)))
         val lowerNumCommunity = graph1.connectedComponents().vertices.map(_._2).distinct().count().toInt
 
+        // get information of the step at which modularity decrease detected
         val excludeEdges2 = sortedBetweenness.take(count).map(_._1).toSet
         val graph2 = graph.subgraph(triplet => !excludeEdges2.contains(sortedV(triplet.srcId, triplet.dstId)))
         val higherNumCommunity = graph2.connectedComponents().vertices.map(_._2).distinct().count().toInt
 
-        if (higherNumCommunity - lowerNumCommunity == 1) {
+        // if the number of communities decreased only by 1, or doesn't change at all, then it is the community split we are looking for
+        if (higherNumCommunity - lowerNumCommunity <= 1) {
           val allCommunities = graph1.connectedComponents().vertices.map(_.swap).groupByKey()
             .map(_._2.toArray.sorted)
             .sortBy(_.head)
