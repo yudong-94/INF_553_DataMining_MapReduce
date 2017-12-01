@@ -1,0 +1,25 @@
+Instruction on Running the Jar files
+
+In this assignment, my Scala version is 2.11.8, and my Spark version is 1.6.1. Besides, I used the sbt structure and plugin to generate the Jar files.
+
+Please use the spark-submit command to run the Jar file. I didn’t include the three data files in the zip file, so please use your local files and change the paths below accordingly. Thanks a lot!
+
+================================================================================
+Task 1:
+
+Calculate each movie’s average rating based on gender of the user. The ratings.dat and users.dat file are needed for this task.
+
+Command for Task 1:
+yourname$ ./bin/spark-submit --class avgRating --master local[1] task1.jar “yourLocalPathTo/ratings.dat" "yourLocalPathTo/users.dat"
+
+Output:
+This command will generate a folder named “movieAvgRating” in your local work directory. Inside this folder, there is a “part-00000” text file. This is exactly the output text file requested for this task.
+
+================================================================================
+Task 2:
+calculate the average rating of each movie genres based on the gender of the user. The ratings.dat, movies.dat and users.dat files are required for this task.
+Command for Task 2:
+yourname$ ./bin/spark-submit --class avgRating2 --master local[1] task2.jar “yourLocalPathTo/ratings.dat" "yourLocalPathTo/users.dat" "yourLocalPathTo/movies.dat"
+
+Output:
+This command will generate a folder named “genreAvgRating” in your local work directory. Inside this folder, there is a “part-00000” text file. This is exactly the output text file requested for this task.
