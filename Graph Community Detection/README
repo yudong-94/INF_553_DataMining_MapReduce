@@ -1,0 +1,14 @@
+Description
+
+============================================================Scala version 	2.10.6
+Spark version 	1.6.1
+sbt version 	0.13.6
+
+============================================================
+In this exercise, I implemented the Girvan-Newman algorithm using the SparkFramework in order to detect communities in the movie rating users graph (Only users who have co-rated more than 3 movies are considered as having a edge between them here). I created two classes - Betweenness to calculate the overall betweenness of the graph; and Community to calculate the modularity of the graph and detect communities.
+Notice: For the speed consideration, I only calculate the betweenness on the original graph, and remove the edges accordingly. However, in real practice, each time the edge with the highest betweenness is removed, all the betweenness needs to be recalculated. ============================================================Instruction on running the Jar fileBetweenness Class
+Command to run:userName$ ./bin/spark-submit --class Betweenness --master local[4]community.jar ratings.csv communities.txt betweenness.txt
+Output file:This command will create a file called “betweenness.txt”, which contains all thebetweenness. This command will take about 60 seconds.
+
+Community ClassCommand to run:userName$ ./bin/spark-submit --class Community --master local[4]community.jar ratings.csv communities.txt betweenness.txt
+Output file:This command will create two files:“betweenness.txt”, which contains all the edges and their betweenness onthe original graph; and“communities.txt”, which contains all the communities detected.
