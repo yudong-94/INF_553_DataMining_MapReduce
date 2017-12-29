@@ -1,6 +1,6 @@
 # Spark Exercise with Scala
 
-Keywords: *MapReduce*, *Spark*, *Scala*, *market basket analysis*
+Keywords: *MapReduce*, *Spark*, *Scala*, *market basket analysis*, *graph analysis*
 
 This is my work on Spark using Scala. This is actually the first-time I learned and used Scala :).
 
